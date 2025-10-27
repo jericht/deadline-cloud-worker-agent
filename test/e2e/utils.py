@@ -1,5 +1,4 @@
 # Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
-import dataclasses
 import os
 import logging
 import filecmp
@@ -68,9 +67,8 @@ def wait_for_job_output(
                 os.makedirs(root_output_path, exist_ok=True)
                 job_output_downloader.set_root_path(root_path, os.path.abspath(root_output_path))
 
-    download_stats = job_output_downloader.download_job_output()
-    LOG.info(f"Download summary statistics: {dataclasses.asdict(download_stats)}")
-    return job_output_downloader.get_output_paths_by_root()
+    job_output_downloader.download_job_output()
+    return output_paths_by_root
 
 
 def submit_sleep_job(

@@ -228,9 +228,8 @@ def get_farm() -> str:
 def cleanup_test_environment() -> None:
     config = Config(retries={"mode": "adaptive"})
 
-    if os.getenv("KEEP_WORKER_AFTER_FAILURE", "").lower() != "true":
-        ec2_client = boto3.client("ec2", config=config)
-        cleanup_ec2_instances(ec2_client)
+    ec2_client = boto3.client("ec2", config=config)
+    cleanup_ec2_instances(ec2_client)
 
     queues = get_queues()
     farm_id = get_farm()

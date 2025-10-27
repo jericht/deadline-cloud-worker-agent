@@ -85,15 +85,6 @@ Outputs:
   LinuxJobStorageProfileId:
     Value: !GetAtt [LinuxJobStorageProfile, StorageProfileId]
 
-  LinuxFleetStorageProfileId:
-    Value: !GetAtt [LinuxFleetStorageProfile, StorageProfileId]
-
-  WindowsJobStorageProfileId:
-    Value: !GetAtt [WindowsJobStorageProfile, StorageProfileId]
-
-  WindowsFleetStorageProfileId:
-    Value: !GetAtt [WindowsFleetStorageProfile, StorageProfileId]
-
 Resources:
   # --------------------------
   # Networking infrastructure
@@ -673,28 +664,6 @@ Resources:
           Path: "/tmp/storageprofiletest"
           Type: "LOCAL"
 
-  WindowsJobStorageProfile:
-    Type: AWS::Deadline::StorageProfile
-    Properties:
-      DisplayName: "WindowsJobStorageProfile"
-      FarmId: !GetAtt DeadlineFarm.FarmId # Reference to your Deadline Farm ID
-      OsFamily: "WINDOWS" # Valid values: LINUX, WINDOWS, or MACOS
-      FileSystemLocations:
-        - Name: "StorageProfileTest"
-          Path: "C:\\Users\\Public\\submission"
-          Type: "LOCAL"
-
-  WindowsFleetStorageProfile:
-    Type: AWS::Deadline::StorageProfile
-    Properties:
-      DisplayName: "WindowsFleetStorageProfile"
-      FarmId: !GetAtt DeadlineFarm.FarmId # Reference to your Deadline Farm ID
-      OsFamily: "WINDOWS" # Valid values: LINUX, WINDOWS, or MACOS
-      FileSystemLocations:
-        - Name: "StorageProfileTest"
-          Path: "C:\\Users\\Public\\worker"
-          Type: "LOCAL"
-
   MainQueue:
     Type: AWS::Deadline::Queue
     Properties:
@@ -702,8 +671,6 @@ Resources:
       Description: The main queue that test jobs are submitted to
       FarmId: !GetAtt DeadlineFarm.FarmId
       AllowedStorageProfileIds:
-        - !GetAtt WindowsFleetStorageProfile.StorageProfileId
-        - !GetAtt WindowsJobStorageProfile.StorageProfileId
         - !GetAtt LinuxJobStorageProfile.StorageProfileId
         - !GetAtt LinuxFleetStorageProfile.StorageProfileId
       RequiredFileSystemLocationNames:
@@ -742,8 +709,6 @@ Resources:
         RunAs: QUEUE_CONFIGURED_USER
       RoleArn: !GetAtt QueueRole.Arn
       AllowedStorageProfileIds:
-        - !GetAtt WindowsFleetStorageProfile.StorageProfileId
-        - !GetAtt WindowsJobStorageProfile.StorageProfileId
         - !GetAtt LinuxJobStorageProfile.StorageProfileId
         - !GetAtt LinuxFleetStorageProfile.StorageProfileId
 
@@ -762,7 +727,6 @@ Resources:
         RunAs: WORKER_AGENT_USER
       RoleArn: !GetAtt QueueRole.Arn
       AllowedStorageProfileIds:
-        - !GetAtt WindowsFleetStorageProfile.StorageProfileId
         - !GetAtt LinuxFleetStorageProfile.StorageProfileId
 
   NonValidRoleQueue:
@@ -784,8 +748,6 @@ Resources:
         RunAs: QUEUE_CONFIGURED_USER
       RoleArn: !GetAtt NonValidQueueRole.Arn
       AllowedStorageProfileIds:
-        - !GetAtt WindowsFleetStorageProfile.StorageProfileId
-        - !GetAtt WindowsJobStorageProfile.StorageProfileId
         - !GetAtt LinuxJobStorageProfile.StorageProfileId
         - !GetAtt LinuxFleetStorageProfile.StorageProfileId
 
@@ -863,7 +825,6 @@ Resources:
       RoleArn: !GetAtt WindowsFleetRole.Arn
       Configuration:
         CustomerManaged:
-          StorageProfileId: !GetAtt WindowsFleetStorageProfile.StorageProfileId
           Mode: NO_SCALING
           WorkerCapabilities:
             CpuArchitectureType: x86_64
