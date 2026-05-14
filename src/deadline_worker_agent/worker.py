@@ -418,9 +418,13 @@ class Worker:
         """
 
         # See: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-instance-termination-notices.html#instance-action-metadata # noqa: E501
+        spot_instance_action_url = os.environ.get(
+            "DEADLINE_WORKER_IMDS_SPOT_ACTION_URL",
+            "http://169.254.169.254/latest/meta-data/spot/instance-action",
+        )
         try:
             response = requests.get(
-                "http://169.254.169.254/latest/meta-data/spot/instance-action",
+                spot_instance_action_url,
                 headers={"X-aws-ec2-metadata-token": imdsv2_token},
             )
         except requests.ConnectionError:

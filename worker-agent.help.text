@@ -1,0 +1,58 @@
+usage: deadline-worker-agent [-h] [--farm-id FARM_ID] [--fleet-id FLEET_ID]
+                             [--no-cleanup-session-user-processes]
+                             [--profile PROFILE] [--no-shutdown]
+                             [--run-jobs-as-agent-user]
+                             [--posix-job-user POSIX_JOB_USER]
+                             [--logs-dir LOGS_DIR] [--no-local-session-logs]
+                             [--persistence-dir PERSISTENCE_DIR]
+                             [--disallow-instance-profile]
+                             [--host-metrics-logging-interval-seconds HOST_METRICS_LOGGING_INTERVAL_SECONDS]
+                             [--no-host-metrics-logging] [--verbose]
+                             [--retain-session-dir] [--structured-logs]
+                             [--session-root-dir SESSION_ROOT_DIR]
+
+AWS Deadline Cloud Worker Agent
+
+options:
+  -h, --help            show this help message and exit
+  --farm-id FARM_ID     The AWS Deadline Cloud Farm identifier that the Worker
+                        should register to
+  --fleet-id FLEET_ID   The AWS Deadline Cloud Fleet identifier that the
+                        Worker should register to
+  --no-cleanup-session-user-processes
+                        Whether to cleanup leftover processes running as a
+                        session user when that user is no longer being used in
+                        any active session
+  --profile PROFILE     The AWS profile to use
+  --no-shutdown         Does not shutdown the instance during scale-in event.
+  --run-jobs-as-agent-user
+                        If set, then all Jobs' session actions will run as the
+                        same user as the agent. WARNING: this is insecure -
+                        for development use only.
+  --posix-job-user POSIX_JOB_USER
+                        Overrides the posix user that the Worker Agent
+                        impersonates. Format: 'user:group'. If not set,
+                        defaults to what the service sets.
+  --logs-dir LOGS_DIR   Overrides the directory where the Worker Agent writes
+                        its logs.
+  --no-local-session-logs
+                        Turns off writing of session logs to the local
+                        filesystem
+  --persistence-dir PERSISTENCE_DIR
+                        Overrides the directory where the Worker Agent
+                        persists files across restarts.
+  --disallow-instance-profile
+                        Turns on validation that the host EC2 instance profile
+                        is disassociated before starting
+  --host-metrics-logging-interval-seconds HOST_METRICS_LOGGING_INTERVAL_SECONDS
+                        The interval between host metrics log messages.
+                        Default is 60.
+  --no-host-metrics-logging
+                        Turn off host metrics logging. Default is on.
+  --verbose, -v         Use verbose console logging
+  --retain-session-dir  Retain the session directory on completion
+  --structured-logs     Enable structured logging for the Agent's stdout and
+                        local file logs.
+  --session-root-dir SESSION_ROOT_DIR
+                        Path to the directory where session directories are
+                        created under.
